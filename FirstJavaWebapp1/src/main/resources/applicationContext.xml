@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans  xmlns="http://www.springframework.org/schema/beans"
+        xmlns:util="http://www.springframework.org/schema/util"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder location="classpath:musicPlayer.properties"/>
+    <!-- Определение бобов музыки -->
+    <bean id="rockMusicBean" class="org.example.RockMusic" />
+    <bean id="classicalMusicBean" class="org.example.ClassicalMusic" />
+    <bean id="newJazzikMusic" class="org.example.NewJazzikMusic"/>
+
+    <!-- Список музыки -->
+    <util:list id="mUsicList" value-type="org.example.Music">
+        <ref bean="rockMusicBean"/>
+        <ref bean="classicalMusicBean"/>
+        <ref bean="newJazzikMusic"/>
+    </util:list>
+
+    <bean id="musicBean" class="org.example.NewJazzikMusic">
+    </bean>
+
+    <!-- Музыкальный плеер -->
+    <bean id="musicPlayer"
+          class="org.example.MusicPlayer"
+          scope="prototype">
+        <property name="musicList" ref="mUsicList"/>
+        <property name="volume" value="${musicPlayer.volume}"/>
+        <property name="name" value="${musicPlayer.name}"/>
+    </bean>
+
+
+</beans>
